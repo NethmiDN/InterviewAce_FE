@@ -98,7 +98,7 @@ export default function Post() {
           className={`px-5 py-2 rounded-lg border text-sm font-medium transition ${
             page === totalPages
               ? "text-slate_grey-600 border-slate_grey-600/30 cursor-not-allowed"
-              : "text-light_text border-gray-300 hover:bg-gray-100 dark:text-light_cyan-900 dark:border-twilight_indigo-300/50 dark:hover:bg-smart_blue-600/20"
+              : "text-light_text border-gray-300 hover:bg-gray-100 dark:text-lavender_grey-900 dark:border-twilight_indigo-300/50 dark:hover:bg-smart_blue-600/20"
           }`}
         >
           Next

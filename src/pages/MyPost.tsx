@@ -8,10 +8,10 @@ export default function MyPost() {
         You have no posts yet. Start creating engaging content to appear here.
       </p>
       <div className="flex gap-4">
-        <button className="px-5 py-2 rounded-md bg-smart_blue-600 hover:bg-smart_blue-700 text-white dark:text-light_cyan-900 font-medium shadow focus:outline-none focus:ring-2 focus:ring-smart_blue-400/60 transition">
+        <button className="px-5 py-2 rounded-md bg-smart_blue-600 hover:bg-smart_blue-700 text-white dark:text-cornsilk-900 font-medium shadow focus:outline-none focus:ring-2 focus:ring-smart_blue-400/60 transition">
           New Post
         </button>
-        <button className="px-5 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition dark:border-twilight_indigo-300/50 dark:text-light_cyan-900 dark:hover:bg-smart_blue-600/10">
+        <button className="px-5 py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition dark:border-twilight_indigo-300/50 dark:text-lavender_grey-900 dark:hover:bg-smart_blue-600/10">
           Refresh
         </button>
       </div>

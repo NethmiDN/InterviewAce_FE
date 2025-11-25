@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        light_text: '#2b2d42',
+        light_text: '#000814',
         alice_blue: { DEFAULT: '#e3f2fd', 100: '#06375a', 200: '#0c6eb3', 300: '#2fa0f1', 400: '#89c9f7', 500: '#e3f2fd', 600: '#e8f5fd', 700: '#eef7fe', 800: '#f4fafe', 900: '#f9fcff' },
         thistle: { DEFAULT: '#cdb4db', 100: '#2b1a36', 200: '#57346b', 300: '#824ea1', 400: '#a87ec1', 500: '#cdb4db', 600: '#d6c2e2', 700: '#e0d2e9', 800: '#ebe1f0', 900: '#f5f0f8' },
         pastel_petal: { DEFAULT: '#ffc8dd', 100: '#5b0023', 200: '#b60046', 300: '#ff116c', 400: '#ff6ca4', 500: '#ffc8dd', 600: '#ffd2e3', 700: '#ffddea', 800: '#ffe9f1', 900: '#fff4f8' },

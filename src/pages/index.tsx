@@ -10,20 +10,20 @@ function FeaturesSection() {
         Why InterviewAce?
       </h2>
       <div className="grid md:grid-cols-3 gap-8 mt-12">
-        <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm text-gray-900 dark:border-white/20 dark:bg-white/10 dark:backdrop-blur-sm dark:text-light_cyan-900">
+        <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm text-gray-900 dark:border-white/20 dark:bg-white/10 dark:backdrop-blur-sm dark:text-lavender_grey-900">
           <img src={SimulationImg} alt="Realistic simulation illustration" className="h-12 w-12 mb-4" />
           <h3 className="font-semibold text-lg">Realistic Simulation</h3>
-          <p className="text-sm mt-2 text-gray-600 dark:text-light_cyan-900">Get interview questions tailored to your role and experience level.</p>
+          <p className="text-sm mt-2 text-gray-600 dark:text-blue_slate-800">Get interview questions tailored to your role and experience level.</p>
         </div>
-        <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm text-gray-900 dark:border-white/20 dark:bg-white/10 dark:backdrop-blur-sm dark:text-light_cyan-900">
+        <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm text-gray-900 dark:border-white/20 dark:bg-white/10 dark:backdrop-blur-sm dark:text-lavender_grey-900">
           <img src={FeedbackImg} alt="AI feedback illustration" className="h-12 w-12 mb-4" />
           <h3 className="font-semibold text-lg">Actionable Feedback</h3>
-          <p className="text-sm mt-2 text-gray-600 dark:text-light_cyan-900">Receive instant AI-driven feedback to improve your answers.</p>
+          <p className="text-sm mt-2 text-gray-600 dark:text-blue_slate-800">Receive instant AI-driven feedback to improve your answers.</p>
         </div>
-        <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm text-gray-900 dark:border-white/20 dark:bg-white/10 dark:backdrop-blur-sm dark:text-light_cyan-900">
+        <div className="p-6 rounded-xl border border-gray-200 bg-white shadow-sm text-gray-900 dark:border-white/20 dark:bg-white/10 dark:backdrop-blur-sm dark:text-lavender_grey-900">
           <img src={ProgressImg} alt="Progress tracking illustration" className="h-12 w-12 mb-4" />
           <h3 className="font-semibold text-lg">Track Progress</h3>
-          <p className="text-sm mt-2 text-gray-600 dark:text-light_cyan-900">Measure improvement and build confidence before the real interview.</p>
+          <p className="text-sm mt-2 text-gray-600 dark:text-blue_slate-800">Measure improvement and build confidence before the real interview.</p>
         </div>
       </div>
     </section>
@@ -32,7 +32,7 @@ function FeaturesSection() {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-app-gradient flex flex-col text-light_text dark:text-light_cyan-900">
+    <div className="min-h-screen bg-app-gradient flex flex-col text-light_text dark:text-lavender_grey-900">
       {/* Navbar */}
       <nav className="flex justify-between items-center px-8 py-5 sticky top-0 z-20 bg-white/80 backdrop-blur-md border-b border-gray-200 dark:bg-white/10 dark:border-white/10">
         <div className="flex items-center gap-2">
@@ -40,7 +40,7 @@ export default function LandingPage() {
           <h1 className="text-xl font-extrabold tracking-tight text-heading-gradient">InterviewAce</h1>
         </div>
         <div className="flex items-center gap-4">
-          <Link to="/login" className="text-sm font-medium text-smart_blue-600 hover:text-smart_blue-700 dark:text-light_cyan-800 dark:hover:text-light_cyan-600 transition">Log In</Link>
+          <Link to="/login" className="text-sm font-medium text-smart_blue-600 hover:text-smart_blue-700 dark:text-brandText dark:hover:text-smart_blue-600 transition">Log In</Link>
           <Link
             to="/register"
             className="btn-primary-gradient px-6 py-3 rounded-md font-semibold hover:brightness-110"
@@ -71,7 +71,7 @@ export default function LandingPage() {
 
           <Link
             to="/login"
-            className="px-8 py-4 font-semibold rounded-xl bg-white border border-gray-200 text-light_text hover:bg-gray-50 transition dark:bg-white/15 dark:border-white/25 dark:text-light_cyan-900 dark:hover:bg-white/25"
+            className="px-8 py-4 font-semibold rounded-xl bg-white border border-gray-200 text-light_text hover:bg-gray-50 transition dark:bg-white/15 dark:border-white/25 dark:text-lavender_grey-900 dark:hover:bg-white/25"
           >
             I have an account
           </Link>
@@ -83,7 +83,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="mt-20 py-10 text-center border-t border-gray-200 bg-white dark:border-white/20 dark:bg-white/10">
-        <p className="text-sm text-slate-600 dark:text-light_cyan-800">© 2025 InterviewAce. All rights reserved.</p>
+        <p className="text-sm text-slate-600 dark:text-blue_slate-800">© 2025 InterviewAce. All rights reserved.</p>
       </footer>
     </div>
   );

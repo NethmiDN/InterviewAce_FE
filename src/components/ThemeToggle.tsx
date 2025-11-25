@@ -13,7 +13,7 @@ function ThemeToggle() {
       title={isDark ? "Light mode" : "Dark mode"}
       className="fixed bottom-4 right-4 z-50 inline-flex items-center justify-center h-12 w-12 rounded-full shadow-lg border transition-colors
                  bg-white text-gray-800 border-gray-200 hover:bg-gray-50 active:scale-95
-                 dark:bg-prussian_blue-600 dark:text-light_cyan-900 dark:border-twilight_indigo-400/40 dark:hover:bg-prussian_blue-500"
+                 dark:bg-prussian_blue-600 dark:text-lavender_grey-900 dark:border-twilight_indigo-400/40 dark:hover:bg-prussian_blue-500"
     >
       {isDark ? (
         // Sun icon for light mode target

@@ -30,18 +30,18 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-app-gradient flex items-center justify-center p-6 text-light_text dark:text-light_cyan-900">
+    <div className="min-h-screen bg-app-gradient flex items-center justify-center p-6 text-light_text dark:text-lavender_grey-900">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 space-y-8 dark:bg-white/10 dark:backdrop-blur-xl dark:ring-1 dark:ring-white/10 dark:border-transparent">
         <div className="space-y-2 text-center">
           <h1 className="text-4xl font-extrabold tracking-tight text-heading-gradient">
             Create Account
           </h1>
-          <p className="text-sm text-slate-600 dark:text-light_cyan-800">Join us and start your journey.</p>
+          <p className="text-sm text-slate-600 dark:text-blue_slate-800">Join us and start your journey.</p>
         </div>
 
         <form className="space-y-5">
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium text-slate-700 dark:text-light_cyan-800">
+            <label htmlFor="username" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
               Username
             </label>
             <input
@@ -50,12 +50,12 @@ export default function Register() {
               placeholder="johndoe"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-light_cyan-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
               disabled={loading}
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-light_cyan-800">
+            <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
               Password
             </label>
             <input
@@ -64,7 +64,7 @@ export default function Register() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-light_cyan-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
               disabled={loading}
             />
           </div>
@@ -82,12 +82,12 @@ export default function Register() {
           </button>
         </form>
 
-        <div className="text-center text-sm text-slate-600 dark:text-light_cyan-800">
+        <div className="text-center text-sm text-slate-600 dark:text-blue_slate-800">
           Already have an account?{' '}
           <button
             type="button"
             onClick={() => navigate('/login')}
-            className="font-semibold text-smart_blue-600 hover:text-smart_blue-700 dark:text-turquoise_surf-600 dark:hover:text-bright_teal_blue-600 transition"
+            className="font-semibold text-smart_blue-600 hover:text-smart_blue-700 dark:text-brandText dark:hover:text-smart_blue-600 transition"
           >
             Log in
           </button>

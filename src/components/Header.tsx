@@ -19,7 +19,7 @@ export default function Header() {
   )
 
   return (
-    <header className="bg-white text-light_text border-b border-gray-200 shadow-sm px-6 py-4 flex justify-between items-center dark:bg-prussian_blue_deep-500 dark:text-light_cyan-900/90 dark:border-twilight_indigo-300/40 transition-colors" role="banner">
+    <header className="bg-white text-light_text border-b border-gray-200 shadow-sm px-6 py-4 flex justify-between items-center dark:bg-prussian_blue_deep-500 dark:text-lavender_grey-900 dark:border-twilight_indigo-300/40 transition-colors" role="banner">
       <nav className="flex gap-6 text-sm font-medium" aria-label="Main navigation">
         <Link to="/home" className="hover:text-smart_blue-600 dark:hover:text-brandText transition-colors">
           Home
@@ -34,11 +34,11 @@ export default function Header() {
         )}
       </nav>
       <div className="flex items-center gap-4">
-        <span className="text-light_text dark:text-slate_grey-300 text-sm">{user?.email || "Guest"}</span>
+        <span className="text-light_text dark:text-blue_slate-800 text-sm">{user?.email || "Guest"}</span>
         {user && (
           <button
             onClick={handleLogout}
-            className="px-3 py-1 rounded-md bg-smart_blue-600 hover:bg-smart_blue-700 text-white dark:text-light_cyan-900 text-sm font-semibold shadow focus:outline-none focus:ring-2 focus:ring-smart_blue-400/60"
+            className="px-3 py-1 rounded-md bg-smart_blue-600 hover:bg-smart_blue-700 text-white dark:text-cornsilk-900 text-sm font-semibold shadow focus:outline-none focus:ring-2 focus:ring-smart_blue-400/60"
             type="button"
           >
             Logout

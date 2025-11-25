@@ -23,7 +23,7 @@ export default function Home() {
       <div className="flex gap-4">
         <button
           onClick={handleLogout}
-          className="px-6 py-2 rounded-md bg-smart_blue-600 hover:bg-smart_blue-700 text-white dark:text-light_cyan-900 font-semibold shadow focus:outline-none focus:ring-2 focus:ring-smart_blue-400/60 transition"
+          className="px-6 py-2 rounded-md bg-smart_blue-600 hover:bg-smart_blue-700 text-white dark:text-cornsilk-900 font-semibold shadow focus:outline-none focus:ring-2 focus:ring-smart_blue-400/60 transition"
         >
           Logout
         </button>
