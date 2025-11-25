@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom global styles */
+
+/*
+  Make app background theme-aware: default (light) is white,
+  when .dark is on <html>, use the dark navy background.
+*/
+.bg-app-gradient { /* light default */
+  background-color: #ffffff;
+  background-image: none;
+}
+.dark .bg-app-gradient { /* dark override */
+	/* Global solid dark background */
+	background-color: #001233; /* single dark navy */
+	background-image: none;
+}
+
+.bg-form-gradient {
+	background-image: linear-gradient(
+    135deg,
+    #00072d 100%,
+    #3B3FAF 60%,
+    #436DFF 25%,
+    #0F9C95 0%
+    );
+}
+
+.text-heading-gradient {
+	background-image: linear-gradient(
+		90deg,
+		#00072d,
+		#0077b6,
+		#00b4d8,
+		#90e0ef,
+		#caf0f8
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.btn-primary-gradient {
+	background-image: linear-gradient(
+		135deg,
+    #00072d 100%,
+    #3B3FAF 60%,
+    #436DFF 25%,
+    #0F9C95 0%
+	);
+	color: #ffffff;
+	font-weight: 600;
+	border-radius: 0.5rem;
+	box-shadow: 0 8px 16px -4px rgba(3,4,94,0.5), 0 4px 6px -4px rgba(0,0,0,0.2);
+	transition: all 150ms;
+	padding: 0.75rem 1.5rem;
+}
+.btn-primary-gradient:hover {
+	filter: brightness(1.08);
+}

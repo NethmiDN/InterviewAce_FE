@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" role="img" aria-label="InterviewAce Logo">
+  <defs>
+    <linearGradient id="grad-navy" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#001233" />
+      <stop offset="50%" stop-color="#002855" />
+      <stop offset="100%" stop-color="#0466c8" />
+    </linearGradient>
+    <linearGradient id="grad-accent" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a9d6e5" />
+      <stop offset="100%" stop-color="#64b5f6" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="240" height="60" fill="none" />
+  <g font-family="'Segoe UI', system-ui, sans-serif" font-weight="600" font-size="30" dominant-baseline="middle" text-anchor="start">
+    <text x="10" y="32" fill="url(#grad-navy)">Interview</text>
+    <text x="165" y="32" fill="url(#grad-accent)">Ace</text>
+  </g>
+  <circle cx="220" cy="30" r="10" fill="#002855" stroke="#a9d6e5" stroke-width="2" />
+  <path d="M217 30 l6 0" stroke="#a9d6e5" stroke-width="2" stroke-linecap="round" />
+</svg>
