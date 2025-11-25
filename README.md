@@ -1,4 +1,4 @@
-# React + TypeScript + Vite
+<!-- # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -143,4 +143,4 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 ```
 
 Accessibility tip: Avoid placing long-form text directly over the mid-transition region of a gradient; instead provide a solid overlay (`bg-prussian_blue-500/70 backdrop-blur-sm`) when necessary.
-
+ -->
