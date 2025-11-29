@@ -195,82 +195,92 @@ export default function Interview() {
 
   if (!user) {
     return (
-      <div className="p-8 text-center">
-        <p>Please login to access the interview.</p>
+      <div className="min-h-screen bg-app-gradient flex items-center justify-center p-6 text-light_text dark:text-lavender_grey-900">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 space-y-8 dark:bg-white/10 dark:backdrop-blur-xl dark:ring-1 dark:ring-white/10 dark:border-transparent">
+          <div className="space-y-2 text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight text-heading-gradient">Please Login</h1>
+            <p className="text-sm text-slate-600 dark:text-blue_slate-800">Login to access the interview simulation.</p>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4">Start Your Interview</h2>
+    <div className="min-h-screen bg-app-gradient flex items-center justify-center p-6 text-light_text dark:text-lavender_grey-900">
+      <div className="w-full max-w-3xl bg-white/95 rounded-3xl shadow-2xl border border-gray-100/80 p-10 space-y-8 backdrop-blur-sm dark:bg-white/10 dark:border-white/10">
+        <div className="space-y-3 text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-heading-gradient drop-shadow">Interview Simulation</h2>
+          <p className="text-base md:text-lg text-slate-600 dark:text-blue_slate-800 max-w-2xl mx-auto">Practice with AI-generated questions and get instant feedback. Fill in your details to start.</p>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className="block mb-1">Job Role</label>
-          <input value={role} onChange={(e) => setRole(e.target.value)} className="w-full p-2 border rounded" placeholder="e.g. Frontend Engineer" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">Job Role</label>
+            <input value={role} onChange={(e) => setRole(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40" placeholder="e.g. Frontend Engineer" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">Experience Level</label>
+            <input value={experience} onChange={(e) => setExperience(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40" placeholder="e.g. 3 years" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">Education Level</label>
+            <input value={education} onChange={(e) => setEducation(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40" placeholder="e.g. B.Sc. in CS" />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">Question Type</label>
+            <select value={qType} onChange={(e) => setQType(e.target.value as any)} className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40">
+              <option value="mixed">Mixed</option>
+              <option value="technical">Technical</option>
+              <option value="behavioral">Behavioral</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label className="block mb-1">Experience Level</label>
-          <input value={experience} onChange={(e) => setExperience(e.target.value)} className="w-full p-2 border rounded" placeholder="e.g. 3 years" />
+
+        <div className="mb-6 text-center">
+          <button disabled={loading} onClick={fetchQuestions} className="btn-primary-gradient px-8 py-3 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-turquoise_surf-600 transition disabled:opacity-50 disabled:cursor-not-allowed">
+            {loading ? "Generating..." : "Start Interview (Generate Questions)"}
+          </button>
         </div>
-        <div>
-          <label className="block mb-1">Education Level</label>
-          <input value={education} onChange={(e) => setEducation(e.target.value)} className="w-full p-2 border rounded" placeholder="e.g. B.Sc. in CS" />
-        </div>
-        <div>
-          <label className="block mb-1">Question Type</label>
-          <select value={qType} onChange={(e) => setQType(e.target.value as any)} className="w-full p-2 border rounded">
-            <option value="mixed">Mixed</option>
-            <option value="technical">Technical</option>
-            <option value="behavioral">Behavioral</option>
-          </select>
-        </div>
+
+        {questions.length > 0 && (
+          <div className="space-y-6">
+            <div className="mb-4 text-center">
+              <h3 className="text-xl font-semibold text-heading-gradient">Question {currentIdx + 1} / {questions.length}</h3>
+              <p className="mt-2 p-4 bg-gray-100 rounded-xl text-gray-900 dark:bg-white/10 dark:text-lavender_grey-900 shadow-sm">{questions[currentIdx].text}</p>
+            </div>
+
+            <div className="flex flex-wrap gap-2 justify-center mb-4">
+              <button onClick={() => playText(questions[currentIdx].text)} className="px-4 py-2 rounded-xl font-semibold shadow transition bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 text-white hover:brightness-110">Play Question</button>
+              <button disabled={isRecording} onClick={handleStartAnswer} className="px-4 py-2 rounded-xl font-semibold shadow transition bg-gradient-to-r from-green-400 via-teal-400 to-blue-400 text-white disabled:opacity-60 disabled:cursor-not-allowed hover:brightness-110">Start Answer (mic)</button>
+              <button disabled={!isRecording} onClick={handleStopAnswer} className="px-4 py-2 rounded-xl font-semibold shadow transition bg-gradient-to-r from-pink-500 via-red-500 to-orange-400 text-white disabled:opacity-60 disabled:cursor-not-allowed hover:brightness-110">Stop Answer</button>
+              <button onClick={handlePrev} className="px-4 py-2 rounded-xl font-semibold shadow transition bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200 text-gray-900 hover:brightness-110">Prev</button>
+              <button onClick={handleNext} className="px-4 py-2 rounded-xl font-semibold shadow transition bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-white hover:brightness-110">Next</button>
+            </div>
+
+            <div className="mb-4">
+              <label className="block mb-1 text-sm font-medium text-slate-700 dark:text-blue_slate-800">Transcribed Answer</label>
+              <textarea value={transcript} readOnly className="w-full p-3 border rounded-xl h-24 bg-white text-light_text dark:bg-white/10 dark:text-lavender_grey-900 shadow-sm" />
+            </div>
+
+            <div className="mb-6 text-center">
+              <button onClick={finishInterview} className="btn-primary-gradient px-8 py-3 rounded-xl font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-turquoise_surf-600 transition">Finish Interview</button>
+            </div>
+
+            <div>
+              <h4 className="font-semibold text-heading-gradient mb-2">Answers Summary</h4>
+              <ol className="list-decimal ml-6">
+                {questions.map((q, idx) => (
+                  <li key={idx} className="mb-2">
+                    <div className="font-medium">{q.text}</div>
+                    <div className="text-sm text-gray-700 dark:text-blue_slate-800">Answer: {answers[idx] || "(no answer)"}</div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        )}
       </div>
-
-      <div className="mb-6">
-        <button disabled={loading} onClick={fetchQuestions} className="px-4 py-2 bg-blue-600 text-white rounded mr-2">
-          {loading ? "Generating..." : "Start Interview (Generate Questions)"}
-        </button>
-      </div>
-
-      {questions.length > 0 && (
-        <div>
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Question {currentIdx + 1} / {questions.length}</h3>
-            <p className="mt-2 p-4 bg-gray-100 rounded">{questions[currentIdx].text}</p>
-          </div>
-
-          <div className="flex gap-2 mb-4">
-            <button onClick={() => playText(questions[currentIdx].text)} className="px-3 py-2 bg-indigo-600 text-white rounded">Play Question</button>
-            <button disabled={isRecording} onClick={handleStartAnswer} className="px-3 py-2 bg-green-600 text-white rounded disabled:opacity-60 disabled:cursor-not-allowed">Start Answer (mic)</button>
-            <button disabled={!isRecording} onClick={handleStopAnswer} className="px-3 py-2 bg-red-600 text-white rounded disabled:opacity-60 disabled:cursor-not-allowed">Stop Answer</button>
-            <button onClick={handlePrev} className="px-3 py-2 bg-gray-300 rounded">Prev</button>
-            <button onClick={handleNext} className="px-3 py-2 bg-gray-300 rounded">Next</button>
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1">Transcribed Answer</label>
-            <textarea value={transcript} readOnly className="w-full p-2 border rounded h-24" />
-          </div>
-
-          <div className="mb-6">
-            <button onClick={finishInterview} className="px-4 py-2 bg-blue-700 text-white rounded">Finish Interview</button>
-          </div>
-
-          <div>
-            <h4 className="font-semibold">Answers Summary</h4>
-            <ol className="list-decimal ml-6">
-              {questions.map((q, idx) => (
-                <li key={idx} className="mb-2">
-                  <div className="font-medium">{q.text}</div>
-                  <div className="text-sm text-gray-700">Answer: {answers[idx] || "(no answer)"}</div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

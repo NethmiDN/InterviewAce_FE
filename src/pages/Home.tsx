@@ -17,7 +17,7 @@ export default function Home() {
       <div className="w-full max-w-3xl bg-white/95 rounded-3xl shadow-2xl border border-gray-100/80 p-10 space-y-8 backdrop-blur-sm dark:bg-white/10 dark:border-white/10">
         <div className="space-y-3 text-center">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-heading-gradient drop-shadow">
-            Welcome back, {user?.email || "Ace"}!
+            Welcome back {typeof user?.firstname === "string" ? user.firstname : ""}!
           </h1>
           <p className="text-base md:text-lg text-slate-600 dark:text-blue_slate-800 max-w-2xl mx-auto">
             Dive into tailored interview simulations and keep your momentum going. Your personalized dashboard keeps everything you need in one place.
@@ -45,12 +45,6 @@ export default function Home() {
             className="w-full sm:w-auto btn-primary-gradient px-8 py-3 rounded-xl font-semibold shadow-lg hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-turquoise_surf-600 transition"
           >
             Start Interview Session
-          </button>
-          <button
-            onClick={handleLogout}
-            className="w-full sm:w-auto px-8 py-3 font-semibold rounded-xl bg-white/90 border border-gray-200 text-smart_blue-700 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-smart_blue-400/70 transition dark:bg-white/15 dark:border-white/25 dark:text-lavender_grey-900 dark:hover:bg-white/25"
-          >
-            Logout
           </button>
         </div>
       </div>
