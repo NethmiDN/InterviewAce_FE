@@ -1,29 +1,43 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { register, type RegisterResponse } from "../services/auth"
+import { register, type RegisterPayload, type RegisterResponse } from "../services/auth"
+import { isAxiosError } from "axios"
 
 export default function Register() {
-  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
 
   const handleRegister = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    if (!username || !password) {
+    if (!email || !password || !firstName || !lastName) {
       setError("Please fill in all fields.")
       return
     }
     setError(null)
     setLoading(true)
     try {
-      const data: RegisterResponse = await register(username, password)
+      const payload: RegisterPayload = {
+        email,
+        password,
+        firstname: firstName,
+        lastname: lastName
+      }
+      const data: RegisterResponse = await register(payload)
       alert(`Registration successful! Email: ${data.data.email}`)
       navigate("/login")
     } catch (err: unknown) {
-      console.error("Registration error:", err)
-      setError("Registration failed. Please try again.")
+      if (isAxiosError(err)) {
+        const message = (err.response?.data as { message?: string } | undefined)?.message
+        setError(message ?? "Registration failed. Please try again.")
+      } else {
+        console.error("Registration error:", err)
+        setError("Registration failed. Please try again.")
+      }
     } finally {
       setLoading(false)
     }
@@ -41,15 +55,43 @@ export default function Register() {
 
         <form className="space-y-5">
           <div className="space-y-2">
-            <label htmlFor="username" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
-              Username
+            <label htmlFor="firstName" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
+              First Name
             </label>
             <input
-              id="username"
+              id="firstName"
               type="text"
-              placeholder="johndoe"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Jane"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
+              disabled={loading}
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="lastName" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
+              Last Name
+            </label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Doe"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
+              disabled={loading}
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="jane.doe@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-light_text placeholder-slate-400 shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/10 dark:text-lavender_grey-900 dark:placeholder-frosted_blue-400 dark:focus:border-turquoise_surf-500 dark:focus:ring-turquoise_surf-500/40"
               disabled={loading}
             />

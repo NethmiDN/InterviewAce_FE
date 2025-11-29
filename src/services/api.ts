@@ -5,8 +5,8 @@ import axios, { AxiosError, type AxiosRequestConfig } from "axios"
 import { refreshTokens } from "./auth"
 
 const api = axios.create({
-  // baseURL: "http://localhost:5000/api/v1"
-  baseURL: "https://blog-post-taupe-nine.vercel.app/api/v1"
+  baseURL: "http://localhost:5000/api/v1"
+  // baseURL: "https://blog-post-taupe-nine.vercel.app/api/v1"
 })
 
 // An interceptor is like a middleware for Axios requests and responses.
