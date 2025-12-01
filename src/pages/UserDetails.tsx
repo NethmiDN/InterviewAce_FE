@@ -1,9 +1,11 @@
 import { useAuth } from "../context/authContext"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { updateMyDetails } from "../services/auth"
 
 export default function UserDetails() {
   const { user, loading, setUser } = useAuth()
+  const navigate = useNavigate()
   const [form, setForm] = useState({ firstname: "", lastname: "", email: "" })
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -73,7 +75,20 @@ export default function UserDetails() {
   return (
     <div className="max-w-xl mx-auto p-6">
       <div className="rounded-xl border border-gray-200 dark:border-white/20 bg-white/90 dark:bg-white/10 p-6 shadow-sm">
-        <h1 className="text-xl font-bold mb-4">Profile Details</h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-xl font-bold">Profile Details</h1>
+          <button
+            type="button"
+            onClick={() => navigate("/home")}
+            className="inline-flex items-center gap-1 text-sm font-medium text-smart_blue-600 hover:text-smart_blue-700 dark:text-brandText dark:hover:text-smart_blue-600 transition"
+            aria-label="Back to home"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            Back
+          </button>
+        </div>
         <div className="space-y-4 text-sm">
           <div className="flex flex-col">
             <label className="text-gray-600 dark:text-lavender_grey-900 mb-1">First Name</label>
@@ -115,7 +130,7 @@ export default function UserDetails() {
           <button
             disabled={saving}
             onClick={handleSave}
-            className="px-4 py-2 text-sm rounded bg-smart_blue-600 text-white hover:bg-smart_blue-700 disabled:opacity-50"
+            className="px-4 py-2 text-sm rounded bg-regal_navy-500 text-white hover:bg-regal_navy-600 focus:outline-none focus:ring-2 focus:ring-regal_navy-400/50 disabled:opacity-50 transition"
           >
             {saving ? "Saving..." : "Save Changes"}
           </button>

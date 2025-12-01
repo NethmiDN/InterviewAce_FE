@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useCallback, useMemo, useState, useRef, useEffect } from "react"
 import { useAuth } from "../context/authContext"
+import Logo from "./Logo"
 
 export default function Header() {
   const { user, setUser } = useAuth()
@@ -55,7 +56,12 @@ export default function Header() {
 
   return (
     <header className="bg-white/95 text-light_text border-b border-gray-100/80 shadow-sm px-6 py-4 flex justify-between items-center dark:bg-white/10 dark:text-lavender_grey-900 dark:border-white/15 transition-colors" role="banner">
-      <nav className="flex gap-6 text-sm font-medium" aria-label="Main navigation">{/* intentionally left blank */}</nav>
+      <div className="flex items-center gap-6">
+        <Logo />
+        <nav className="hidden md:flex gap-6 text-sm font-medium" aria-label="Main navigation">
+          {/* Add nav links here if needed */}
+        </nav>
+      </div>
       <div className="flex items-center gap-4">
         <div
           ref={avatarRef}
