@@ -23,6 +23,8 @@ export interface RegisterPayload {
 export interface UserDetailsResponse {
   data: {
     email?: string
+    firstname?: string
+    lastname?: string
     roles?: string[]
     [key: string]: unknown
   }

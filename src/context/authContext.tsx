@@ -5,6 +5,8 @@ import { getMyDetails, type UserDetailsResponse } from "../services/auth"
 // Basic shape of user returned by backend; extend as needed
 export interface User {
   email?: string
+  firstname?: string
+  lastname?: string
   roles?: string[]
   [key: string]: unknown
 }
