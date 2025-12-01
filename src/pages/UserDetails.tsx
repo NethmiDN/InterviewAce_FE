@@ -1,7 +1,7 @@
 import { useAuth } from "../context/authContext"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { updateMyDetails } from "../services/auth"
+import { changeMyPassword, updateMyDetails } from "../services/auth"
 
 export default function UserDetails() {
   const { user, loading, setUser } = useAuth()
@@ -10,6 +10,10 @@ export default function UserDetails() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [pwForm, setPwForm] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" })
+  const [pwSaving, setPwSaving] = useState(false)
+  const [pwMessage, setPwMessage] = useState<string | null>(null)
+  const [pwError, setPwError] = useState<string | null>(null)
 
   // Sync form when user data loads or changes
   useEffect(() => {
@@ -25,6 +29,11 @@ export default function UserDetails() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setPwForm((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSave = async () => {
@@ -50,6 +59,41 @@ export default function UserDetails() {
       setError(err?.response?.data?.message || "Failed to update profile")
     } finally {
       setSaving(false)
+    }
+  }
+
+  const handleChangePassword = async () => {
+    setPwSaving(true)
+    setPwMessage(null)
+    setPwError(null)
+    try {
+      const { currentPassword, newPassword, confirmPassword } = pwForm
+
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        setPwError("Please fill in all password fields")
+        setPwSaving(false)
+        return
+      }
+
+      if (newPassword !== confirmPassword) {
+        setPwError("New password and confirmation do not match")
+        setPwSaving(false)
+        return
+      }
+
+      if (newPassword.length < 8) {
+        setPwError("New password must be at least 8 characters")
+        setPwSaving(false)
+        return
+      }
+
+      await changeMyPassword({ currentPassword, newPassword })
+      setPwMessage("Password updated successfully")
+      setPwForm({ currentPassword: "", newPassword: "", confirmPassword: "" })
+    } catch (err: any) {
+      setPwError(err?.response?.data?.message || "Failed to update password")
+    } finally {
+      setPwSaving(false)
     }
   }
 
@@ -118,10 +162,44 @@ export default function UserDetails() {
               className="px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400"
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-gray-600 dark:text-lavender_grey-900 mb-1">Password</label>
-            <span className="font-medium text-light_text dark:text-lavender_grey-900">********</span>
-            <span className="text-[10px] text-gray-500 dark:text-lavender_grey-900 mt-1">Password changes are handled separately.</span>
+          <div className="flex flex-col gap-3">
+            <label className="text-gray-600 dark:text-lavender_grey-900">Change Password</label>
+            <input
+              name="currentPassword"
+              type="password"
+              placeholder="Current password"
+              value={pwForm.currentPassword}
+              onChange={handlePasswordChange}
+              className="px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400"
+            />
+            <input
+              name="newPassword"
+              type="password"
+              placeholder="New password"
+              value={pwForm.newPassword}
+              onChange={handlePasswordChange}
+              className="px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400"
+            />
+            <input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm new password"
+              value={pwForm.confirmPassword}
+              onChange={handlePasswordChange}
+              className="px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400"
+            />
+            {pwMessage && <p className="text-xs text-green-600 dark:text-green-400">{pwMessage}</p>}
+            {pwError && <p className="text-xs text-red-600 dark:text-red-400">{pwError}</p>}
+            <div>
+              <button
+                type="button"
+                disabled={pwSaving}
+                onClick={handleChangePassword}
+                className="px-4 py-2 text-sm rounded bg-smart_blue-600 text-white hover:bg-smart_blue-700 focus:outline-none focus:ring-2 focus:ring-smart_blue-400/50 disabled:opacity-50 transition"
+              >
+                {pwSaving ? "Updating..." : "Change Password"}
+              </button>
+            </div>
           </div>
         </div>
         {message && <p className="mt-4 text-xs text-green-600 dark:text-green-400">{message}</p>}

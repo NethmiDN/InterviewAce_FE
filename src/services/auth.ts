@@ -26,6 +26,7 @@ export interface UserDetailsResponse {
     firstname?: string
     lastname?: string
     roles?: string[]
+    avatarUrl?: string
     [key: string]: unknown
   }
 }
@@ -38,6 +39,11 @@ export interface UpdateUserPayload {
   firstname?: string
   lastname?: string
   email?: string
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string
+  newPassword: string
 }
 
 export const login = async (
@@ -71,5 +77,21 @@ export const updateMyDetails = async (
   payload: UpdateUserPayload
 ): Promise<UserDetailsResponse> => {
   const res = await api.put("/auth/me", payload)
+  return res.data as UserDetailsResponse
+}
+
+export const changeMyPassword = async (
+  payload: ChangePasswordPayload
+): Promise<{ message: string }> => {
+  const res = await api.put("/auth/me/password", payload)
+  return res.data as { message: string }
+}
+
+export const uploadProfileImage = async (file: File): Promise<UserDetailsResponse> => {
+  const fd = new FormData()
+  fd.append("avatar", file)
+  const res = await api.post("/auth/me/avatar", fd, {
+    headers: { "Content-Type": "multipart/form-data" }
+  })
   return res.data as UserDetailsResponse
 }
