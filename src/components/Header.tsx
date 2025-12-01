@@ -94,7 +94,7 @@ export default function Header() {
                 </div>
               </div>
               <div className="px-4 pt-2">
-                <Link to="/home" className="block py-2 text-sm text-light_text hover:text-smart_blue-600 dark:text-lavender_grey-900 dark:hover:text-brandText transition-colors">User Details</Link>
+                <Link to="/user" className="block py-2 text-sm text-light_text hover:text-smart_blue-600 dark:text-lavender_grey-900 dark:hover:text-brandText transition-colors">User Details</Link>
                 <button
                   onClick={handleLogout}
                   className="w-full mt-2 px-4 py-2 font-semibold rounded-xl bg-white/90 text-red-600 shadow hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-smart_blue-400/70 transition dark:bg-white/15 dark:text-red-500 dark:hover:bg-white/25"

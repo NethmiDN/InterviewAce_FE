@@ -34,6 +34,12 @@ export interface RefreshTokensResponse {
   refreshToken?: string
 }
 
+export interface UpdateUserPayload {
+  firstname?: string
+  lastname?: string
+  email?: string
+}
+
 export const login = async (
   username: string,
   password: string
@@ -59,4 +65,11 @@ export const refreshTokens = async (
     token: refreshToken
   })
   return res.data as RefreshTokensResponse
+}
+
+export const updateMyDetails = async (
+  payload: UpdateUserPayload
+): Promise<UserDetailsResponse> => {
+  const res = await api.put("/auth/me", payload)
+  return res.data as UserDetailsResponse
 }
