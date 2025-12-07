@@ -66,14 +66,7 @@ export default function Router() {
             <Route path="/user" element={<UserDetails />} />
             <Route path="/interview" element={<Interview />} />
             <Route path="/post" element={<Post />} />
-            <Route
-              path="/my-post"
-              element={
-                <RequireAuth roles={["ADMIN", "AUTHOR"]}>
-                  <MyPost />
-                </RequireAuth>
-              }
-            />
+            <Route path="/my-post" element={<MyPost />} />
           </Route>
         </Routes>
       </Suspense>
