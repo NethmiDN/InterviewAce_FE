@@ -132,8 +132,21 @@ export default function Interview() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role, experience, education, type: qType })
       })
-      const data = await res.json()
-      const generated = (data.questions || []).map((q: string) => ({ text: q }))
+      const data = await res
+        .json()
+        .catch(() => ({}))
+
+      if (!res.ok) {
+        console.error("AI backend error:", data)
+        alert(data?.message || "AI service is unavailable right now. Please try again later.")
+        return
+      }
+
+      const generated = Array.isArray(data.questions) ? data.questions.map((q: string) => ({ text: q })) : []
+      if (!generated.length) {
+        alert("AI did not return any questions. Please try again later.")
+        return
+      }
       setQuestions(generated)
       questionsRef.current = generated
       setCurrentIdx(0)

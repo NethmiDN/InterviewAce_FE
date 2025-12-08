@@ -9,7 +9,7 @@ export default function Home() {
     setUser(null)
     localStorage.removeItem("accessToken")
     localStorage.removeItem("refreshToken")
-    navigate("/login")
+    navigate("/", { replace: true })
   }
 
   return (

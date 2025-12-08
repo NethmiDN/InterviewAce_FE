@@ -13,7 +13,7 @@ export default function Header() {
     setUser(null)
     localStorage.removeItem("accessToken")
     localStorage.removeItem("refreshToken")
-    navigate("/login")
+    navigate("/", { replace: true })
   }, [navigate, setUser])
 
   // Safe derived user fields (try multiple keys; never show email)

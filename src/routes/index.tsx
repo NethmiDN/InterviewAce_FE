@@ -26,7 +26,7 @@ const RequireAuth = ({ children, roles }: RequireAuthTypes) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />
+    return <Navigate to="/" replace />
   }
 
   if (roles && !roles.some((role) => user.roles?.includes(role))) {
