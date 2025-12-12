@@ -35,6 +35,10 @@ export interface RefreshTokensResponse {
   refreshToken?: string
 }
 
+export interface ForgotPasswordResponse {
+  message: string
+}
+
 export interface UpdateUserPayload {
   firstname?: string
   lastname?: string
@@ -94,4 +98,9 @@ export const uploadProfileImage = async (file: File): Promise<UserDetailsRespons
     headers: { "Content-Type": "multipart/form-data" }
   })
   return res.data as UserDetailsResponse
+}
+
+export const requestPasswordReset = async (email: string): Promise<ForgotPasswordResponse> => {
+  const res = await api.post("/auth/forgot-password", { email })
+  return res.data as ForgotPasswordResponse
 }

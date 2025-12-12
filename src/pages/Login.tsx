@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/authContext"
-import { login, getMyDetails, type LoginResponse, type UserDetailsResponse } from "../services/auth"
+import { login, getMyDetails, requestPasswordReset, type LoginResponse, type UserDetailsResponse } from "../services/auth"
 import { isAxiosError } from "axios"
 
 export default function Login() {
@@ -9,6 +9,10 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [forgotModalOpen, setForgotModalOpen] = useState(false)
+  const [resetEmail, setResetEmail] = useState("")
+  const [resetLoading, setResetLoading] = useState(false)
+  const [resetStatus, setResetStatus] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
   const { setUser } = useAuth()
   const navigate = useNavigate()
@@ -63,6 +67,47 @@ export default function Login() {
     */
   }
 
+  const openForgotPassword = () => {
+    setResetStatus(null)
+    setResetEmail(email)
+    setForgotModalOpen(true)
+  }
+
+  const closeForgotPassword = () => {
+    setForgotModalOpen(false)
+    setResetStatus(null)
+    setResetEmail("")
+  }
+
+  const handleForgotSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!resetEmail.trim()) {
+      setResetStatus({ type: "error", text: "Please enter the email associated with your account." })
+      return
+    }
+
+    setResetStatus(null)
+    setResetLoading(true)
+    try {
+      await requestPasswordReset(resetEmail.trim())
+      setResetStatus({
+        type: "success",
+        text: "If the email exists in our records, you'll receive reset instructions shortly."
+      })
+    } catch (err) {
+      console.error("Forgot password error:", err)
+      if (isAxiosError(err)) {
+        const message = (err.response?.data as { message?: string } | undefined)?.message
+        setResetStatus({ type: "error", text: message ?? "Unable to process your request." })
+      } else {
+        setResetStatus({ type: "error", text: "Unable to process your request." })
+      }
+    } finally {
+      setResetLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-app-gradient flex items-center justify-center p-6 text-light_text dark:text-lavender_grey-900">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-200 p-8 space-y-8 dark:bg-white/10 dark:backdrop-blur-xl dark:ring-1 dark:ring-white/10 dark:border-transparent">
@@ -103,6 +148,16 @@ export default function Login() {
             />
           </div>
 
+          <div className="text-right text-sm">
+            <button
+              type="button"
+              onClick={openForgotPassword}
+              className="font-semibold text-smart_blue-600 hover:text-smart_blue-700 dark:text-brandText"
+            >
+              Forgot password?
+            </button>
+          </div>
+
           {error && (
             <div className="text-sm text-red-600 font-medium bg-red-50 border border-red-200 rounded-lg px-3 py-2">
               {error}
@@ -129,6 +184,77 @@ export default function Login() {
           </button>
         </div>
       </div>
+
+      {forgotModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+          <div className="absolute inset-0 bg-black/40" onClick={closeForgotPassword}></div>
+          <div className="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-slate-900">
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-2xl font-semibold text-slate-900 dark:text-lavender_grey-900">Reset password</h2>
+                <p className="mt-1 text-sm text-slate-500 dark:text-blue_slate-800">
+                  Enter the email associated with your account and we&apos;ll email you a reset link.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={closeForgotPassword}
+                className="text-slate-400 hover:text-slate-600"
+                aria-label="Close reset password modal"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form className="mt-6 space-y-4" onSubmit={handleForgotSubmit}>
+              <div className="space-y-2">
+                <label htmlFor="reset-email" className="text-sm font-medium text-slate-700 dark:text-blue_slate-800">
+                  Email address
+                </label>
+                <input
+                  id="reset-email"
+                  type="email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-light_text shadow-sm focus:outline-none focus:border-smart_blue-500 focus:ring-2 focus:ring-smart_blue-500/30 dark:border-bright_teal_blue-400/40 dark:bg-white/5 dark:text-lavender_grey-900"
+                  disabled={resetLoading}
+                />
+              </div>
+
+              {resetStatus && (
+                <div
+                  className={`rounded-lg px-3 py-2 text-sm font-medium ${
+                    resetStatus.type === "success"
+                      ? "bg-green-50 text-green-700 border border-green-200"
+                      : "bg-red-50 text-red-600 border border-red-200"
+                  }`}
+                >
+                  {resetStatus.text}
+                </div>
+              )}
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="submit"
+                  disabled={resetLoading}
+                  className="flex-1 btn-primary-gradient rounded-xl py-3 font-semibold disabled:opacity-60"
+                >
+                  {resetLoading ? "Sending..." : "Send reset link"}
+                </button>
+                <button
+                  type="button"
+                  onClick={closeForgotPassword}
+                  className="flex-1 rounded-xl border border-slate-300 py-3 font-semibold text-slate-600 hover:bg-slate-50 dark:text-lavender_grey-900"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
