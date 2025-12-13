@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { register, type RegisterPayload, type RegisterResponse } from "../services/auth"
 import { isAxiosError } from "axios"
+import { validatePassword } from "../utils/validation"
 
 export default function Register() {
   const [email, setEmail] = useState("")
@@ -18,6 +19,13 @@ export default function Register() {
       setError("Please fill in all fields.")
       return
     }
+
+    const passwordError = validatePassword(password)
+    if (passwordError) {
+      setError(passwordError)
+      return
+    }
+
     setError(null)
     setLoading(true)
     try {

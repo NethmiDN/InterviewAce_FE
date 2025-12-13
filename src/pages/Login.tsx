@@ -95,6 +95,9 @@ export default function Login() {
         type: "success",
         text: "If the email exists in our records, you'll receive reset instructions shortly."
       })
+      setTimeout(() => {
+        navigate("/verify-otp", { state: { email: resetEmail.trim() } })
+      }, 1500)
     } catch (err) {
       console.error("Forgot password error:", err)
       if (isAxiosError(err)) {
@@ -226,8 +229,8 @@ export default function Login() {
               {resetStatus && (
                 <div
                   className={`rounded-lg px-3 py-2 text-sm font-medium ${resetStatus.type === "success"
-                      ? "bg-green-50 text-green-700 border border-green-200"
-                      : "bg-red-50 text-red-600 border border-red-200"
+                    ? "bg-green-50 text-green-700 border border-green-200"
+                    : "bg-red-50 text-red-600 border border-red-200"
                     }`}
                 >
                   {resetStatus.text}

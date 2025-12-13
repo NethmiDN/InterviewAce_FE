@@ -11,6 +11,7 @@ const Interview = lazy(() => import("../pages/Interview"))
 const Post = lazy(() => import("../pages/Post"))
 const MyPost = lazy(() => import("../pages/MyPost"))
 const UserDetails = lazy(() => import("../pages/UserDetails"))
+const VerifyOtp = lazy(() => import("../pages/VerifyOtp"))
 
 type RequireAuthTypes = { children: ReactNode; roles?: string[] }
 
@@ -55,6 +56,7 @@ export default function Router() {
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route
             element={
               <RequireAuth>
