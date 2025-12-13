@@ -225,11 +225,10 @@ export default function Login() {
 
               {resetStatus && (
                 <div
-                  className={`rounded-lg px-3 py-2 text-sm font-medium ${
-                    resetStatus.type === "success"
+                  className={`rounded-lg px-3 py-2 text-sm font-medium ${resetStatus.type === "success"
                       ? "bg-green-50 text-green-700 border border-green-200"
                       : "bg-red-50 text-red-600 border border-red-200"
-                  }`}
+                    }`}
                 >
                   {resetStatus.text}
                 </div>
@@ -241,7 +240,7 @@ export default function Login() {
                   disabled={resetLoading}
                   className="flex-1 btn-primary-gradient rounded-xl py-3 font-semibold disabled:opacity-60"
                 >
-                  {resetLoading ? "Sending..." : "Send reset link"}
+                  {resetLoading ? "Sending..." : "Send OTP"}
                 </button>
                 <button
                   type="button"
