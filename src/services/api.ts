@@ -4,10 +4,12 @@
 import axios, { AxiosError, type AxiosRequestConfig } from "axios"
 import { refreshTokens } from "./auth"
 
+// 1. Use import.meta.env for Vite, or process.env for Create React App
+const BASE_URL = import.meta.env.VITE_API_URL || "https://testbe-two.vercel.app/api/v1";
+
 const api = axios.create({
-  baseURL: "http://localhost:5000/api/v1"
-  // baseURL: "https://blog-post-taupe-nine.vercel.app/api/v1"
-})
+  baseURL: BASE_URL
+});
 
 // An interceptor is like a middleware for Axios requests and responses.
 // It lets you intercept, modify, or analyze any API request or response before it goes out or comes back.

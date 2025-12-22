@@ -195,6 +195,7 @@ export default function UserDetails() {
                 placeholder="Current password"
                 value={pwForm.currentPassword}
                 onChange={handlePasswordChange}
+                autoComplete="current-password"
                 className="w-full px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400 pr-10"
               />
               <button
@@ -213,6 +214,7 @@ export default function UserDetails() {
                 placeholder="New password"
                 value={pwForm.newPassword}
                 onChange={handlePasswordChange}
+                autoComplete="new-password"
                 className="w-full px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400 pr-10"
               />
               <button
@@ -231,6 +233,7 @@ export default function UserDetails() {
                 placeholder="Confirm new password"
                 value={pwForm.confirmPassword}
                 onChange={handlePasswordChange}
+                autoComplete="new-password"
                 className="w-full px-3 py-2 rounded border border-gray-300 dark:border-white/20 bg-white/80 dark:bg-white/10 focus:outline-none focus:ring-2 focus:ring-smart_blue-400 pr-10"
               />
               <button

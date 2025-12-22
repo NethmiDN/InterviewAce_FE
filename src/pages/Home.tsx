@@ -2,15 +2,15 @@ import { useAuth } from "../context/authContext"
 import { useNavigate } from "react-router-dom"
 
 export default function Home() {
-  const { user, setUser } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogout = () => {
-    setUser(null)
-    localStorage.removeItem("accessToken")
-    localStorage.removeItem("refreshToken")
-    navigate("/", { replace: true })
-  }
+  // const handleLogout = () => {
+  //   setUser(null)
+  //   localStorage.removeItem("accessToken")
+  //   localStorage.removeItem("refreshToken")
+  //   navigate("/", { replace: true })
+  // }
 
   return (
     <div className="min-h-screen bg-app-gradient flex items-center justify-center p-6 text-light_text dark:text-lavender_grey-900">
