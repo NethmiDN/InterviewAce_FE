@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/authContext"
+import api from "../services/api"
+import Swal from "sweetalert2"
+import { isAxiosError } from "axios"
 
 type Question = {
   text: string
@@ -127,26 +130,26 @@ export default function Interview() {
   const fetchQuestions = async () => {
     setLoading(true)
     try {
-      const res = await fetch("http://localhost:5000/api/v1/ai/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ role, experience, education, type: qType })
-      })
-      const data = await res
-        .json()
-        .catch(() => ({}))
+      const response = await api.post("/ai/generate", {
+        role,
+        experience,
+        education,
+        type: qType
+      });
 
-      if (!res.ok) {
-        console.error("AI backend error:", data)
-        alert(data?.message || "AI service is unavailable right now. Please try again later.")
-        return
-      }
-
+      const data = response.data;
       const generated = Array.isArray(data.questions) ? data.questions.map((q: string) => ({ text: q })) : []
+
       if (!generated.length) {
-        alert("AI did not return any questions. Please try again later.")
+        Swal.fire({
+          icon: 'warning',
+          title: 'No Questions Generated',
+          text: 'AI did not return any questions. Please try again later.',
+          confirmButtonColor: '#F59E0B'
+        });
         return
       }
+
       setQuestions(generated)
       questionsRef.current = generated
       setCurrentIdx(0)
@@ -157,9 +160,19 @@ export default function Interview() {
       setTranscript("")
       shouldAdvanceAfterStopRef.current = false
       stopRequestedRef.current = false
+
     } catch (err) {
       console.error(err)
-      alert("Failed to fetch questions. Make sure backend is running on http://localhost:5000")
+      let message = "AI service is unavailable right now. Please try again later."
+      if (isAxiosError(err)) {
+        message = (err.response?.data as { message?: string } | undefined)?.message || message;
+      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+        confirmButtonColor: '#EF4444'
+      });
     } finally {
       setLoading(false)
     }
@@ -167,8 +180,14 @@ export default function Interview() {
 
   const handleStartAnswer = () => {
     const recognition = recognitionRef.current
-    if (!recognition) return alert("SpeechRecognition not supported in this browser.")
-    if (!questions.length) return alert("Generate questions first.")
+    if (!recognition) {
+      Swal.fire('Not Supported', 'SpeechRecognition not supported in this browser.', 'error');
+      return;
+    }
+    if (!questions.length) {
+      Swal.fire('No Questions', 'Generate questions first.', 'warning');
+      return;
+    }
     if (isRecording) return
     shouldAdvanceAfterStopRef.current = false
     stopRequestedRef.current = false
@@ -199,11 +218,18 @@ export default function Interview() {
   }
 
   const finishInterview = () => {
-    // basic scoring: count answered
     const answered = answers.filter(Boolean).length
     const total = questions.length
-    navigate("/home", { replace: true })
-    alert(`Interview finished. Score: ${answered}/${total}`)
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Interview Finished',
+      text: `Score: ${answered}/${total}`,
+      confirmButtonText: 'Go Home',
+      confirmButtonColor: '#3B82F6'
+    }).then(() => {
+      navigate("/home", { replace: true })
+    });
   }
 
   if (!user) {
