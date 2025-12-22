@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { register, type RegisterPayload, type RegisterResponse } from "../services/auth"
 import { isAxiosError } from "axios"
 import { validatePassword } from "../utils/validation"
+import Swal from "sweetalert2"
 
 export default function Register() {
   const [email, setEmail] = useState("")
@@ -12,22 +13,31 @@ export default function Register() {
   const [lastName, setLastName] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const [error, setError] = useState<string | null>(null)
+  // error state removed in favor of SweetAlert
 
   const handleRegister = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (!email || !password || !firstName || !lastName) {
-      setError("Please fill in all fields.")
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Information",
+        text: "Please fill in all fields.",
+        confirmButtonColor: "#3B82F6",
+      })
       return
     }
 
     const passwordError = validatePassword(password)
     if (passwordError) {
-      setError(passwordError)
+      Swal.fire({
+        icon: "warning",
+        title: "Weak Password",
+        text: passwordError,
+        confirmButtonColor: "#3B82F6",
+      })
       return
     }
 
-    setError(null)
     setLoading(true)
     try {
       const payload: RegisterPayload = {
@@ -37,15 +47,31 @@ export default function Register() {
         lastname: lastName
       }
       const data: RegisterResponse = await register(payload)
-      alert(`Registration successful! Email: ${data.data.email}`)
+
+      await Swal.fire({
+        icon: "success",
+        title: "Registration Successful!",
+        text: `Email: ${data.data.email}`,
+        confirmButtonColor: "#22c55e",
+      })
       navigate("/login")
     } catch (err: unknown) {
       if (isAxiosError(err)) {
         const message = (err.response?.data as { message?: string } | undefined)?.message
-        setError(message ?? "Registration failed. Please try again.")
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          text: message ?? "Registration failed. Please try again.",
+          confirmButtonColor: "#EF4444",
+        })
       } else {
         console.error("Registration error:", err)
-        setError("Registration failed. Please try again.")
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Registration failed. Please try again.",
+          confirmButtonColor: "#EF4444",
+        })
       }
     } finally {
       setLoading(false)
@@ -137,11 +163,6 @@ export default function Register() {
               </button>
             </div>
           </div>
-          {error && (
-            <div className="text-sm text-red-600 font-medium bg-red-50 border border-red-200 rounded-lg px-3 py-2">
-              {error}
-            </div>
-          )}
           <button
             onClick={handleRegister}
             disabled={loading}
