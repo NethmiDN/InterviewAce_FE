@@ -1,20 +1,19 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../context/authContext"
-import { login, getMyDetails, requestPasswordReset, type LoginResponse, type UserDetailsResponse } from "../services/auth"
+import { login, getMe, requestPasswordReset, type LoginResponse, type UserDetailsResponse } from "../services/auth"
 import { isAxiosError } from "axios"
-import Swal from "sweetalert2"
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  // error state removed in favor of SweetAlert
+  const [error, setError] = useState<string | null>(null)
   const [forgotModalOpen, setForgotModalOpen] = useState(false)
   const [resetEmail, setResetEmail] = useState("")
   const [resetLoading, setResetLoading] = useState(false)
-  // resetStatus state removed in favor of SweetAlert
+  const [resetStatus, setResetStatus] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
   const { setUser } = useAuth()
   const navigate = useNavigate()
@@ -23,15 +22,11 @@ export default function Login() {
     e.preventDefault() // prevent page refresh
 
     if (!email.trim() || !password.trim()) {
-      Swal.fire({
-        icon: "warning",
-        title: "Missing Information",
-        text: "Please enter both email and password.",
-        confirmButtonColor: "#3B82F6", // smart_blue approximation
-      })
+      setError("Please enter both email and password.")
       return
     }
 
+    setError(null)
     setLoading(true)
     try {
       const data: LoginResponse = await login(email, password)
@@ -40,60 +35,48 @@ export default function Login() {
         localStorage.setItem("accessToken", data.data.accessToken)
         localStorage.setItem("refreshToken", data.data.refreshToken)
 
-        const resData: UserDetailsResponse = await getMyDetails()
+        const resData: UserDetailsResponse = await getMe()
         setUser(resData.data)
-
-        // Optional: Success toast or alert before navigation
-        const Toast = Swal.mixin({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          timerProgressBar: true,
-          didOpen: (toast) => {
-            toast.onmouseenter = Swal.stopTimer;
-            toast.onmouseleave = Swal.resumeTimer;
-          }
-        });
-        Toast.fire({
-          icon: "success",
-          title: "Signed in successfully"
-        });
-
         navigate("/home")
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Login Failed",
-          text: "Please check your credentials.",
-          confirmButtonColor: "#EF4444",
-        })
+        setError("Login failed. Please check your credentials.")
       }
     } catch (err) {
       console.error("Login error:", err)
-      let message = "Login failed. Please try again."
       if (isAxiosError(err)) {
-        message = (err.response?.data as { message?: string } | undefined)?.message ?? message
+        const message = (err.response?.data as { message?: string } | undefined)?.message
+        setError(message ?? "Login failed. Please check your credentials.")
+      } else {
+        setError("Login failed. Please try again.")
       }
-
-      Swal.fire({
-        icon: "error",
-        title: "Login Error",
-        text: message,
-        confirmButtonColor: "#EF4444",
-      })
     } finally {
       setLoading(false)
     }
+
+    // ----- Example of axios call (besic) -----
+    /*
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/login",
+        { email: username, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+    */
   }
 
   const openForgotPassword = () => {
+    setResetStatus(null)
     setResetEmail(email)
     setForgotModalOpen(true)
   }
 
   const closeForgotPassword = () => {
     setForgotModalOpen(false)
+    setResetStatus(null)
     setResetEmail("")
   }
 
@@ -101,39 +84,29 @@ export default function Login() {
     e.preventDefault()
 
     if (!resetEmail.trim()) {
-      Swal.fire({
-        icon: "warning",
-        title: "Email Required",
-        text: "Please enter the email associated with your account.",
-        confirmButtonColor: "#3B82F6",
-      })
+      setResetStatus({ type: "error", text: "Please enter the email associated with your account." })
       return
     }
 
+    setResetStatus(null)
     setResetLoading(true)
     try {
       await requestPasswordReset(resetEmail.trim())
-
-      await Swal.fire({
-        icon: "success",
-        title: "Check your email",
-        text: "If the email exists in our records, you'll receive reset instructions shortly.",
-        confirmButtonColor: "#22c55e",
+      setResetStatus({
+        type: "success",
+        text: "If the email exists in our records, you'll receive reset instructions shortly."
       })
-
-      navigate("/verify-otp", { state: { email: resetEmail.trim() } })
+      setTimeout(() => {
+        navigate("/verify-otp", { state: { email: resetEmail.trim() } })
+      }, 1500)
     } catch (err) {
       console.error("Forgot password error:", err)
-      let message = "Unable to process your request."
       if (isAxiosError(err)) {
-        message = (err.response?.data as { message?: string } | undefined)?.message ?? message
+        const message = (err.response?.data as { message?: string } | undefined)?.message
+        setResetStatus({ type: "error", text: message ?? "Unable to process your request." })
+      } else {
+        setResetStatus({ type: "error", text: "Unable to process your request." })
       }
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: message,
-        confirmButtonColor: "#EF4444",
-      })
     } finally {
       setResetLoading(false)
     }
@@ -207,6 +180,12 @@ export default function Login() {
             </button>
           </div>
 
+          {error && (
+            <div className="text-sm text-red-600 font-medium bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {error}
+            </div>
+          )}
+
           <button
             onClick={handleLogin}
             disabled={loading}
@@ -266,6 +245,17 @@ export default function Login() {
                 />
               </div>
 
+              {resetStatus && (
+                <div
+                  className={`rounded-lg px-3 py-2 text-sm font-medium ${resetStatus.type === "success"
+                    ? "bg-green-50 text-green-700 border border-green-200"
+                    : "bg-red-50 text-red-600 border border-red-200"
+                    }`}
+                >
+                  {resetStatus.text}
+                </div>
+              )}
+
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button
                   type="submit"
@@ -289,4 +279,3 @@ export default function Login() {
     </div>
   )
 }
-

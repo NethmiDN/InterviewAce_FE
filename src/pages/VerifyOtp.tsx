@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { isAxiosError } from "axios"
 import api from "../services/api" // Assuming we'll add the service function later or call api directly for now specific to this new page needs
 import { validatePassword } from "../utils/validation"
-import Swal from "sweetalert2"
 
 // We need to define the service call. Since I can't edit services/auth.ts in the same step, 
 // I'll define a local helper or assume it exists. 
@@ -24,33 +23,24 @@ export default function VerifyOtp() {
     const [newPassword, setNewPassword] = useState("")
     const [showNewPassword, setShowNewPassword] = useState(false)
     const [loading, setLoading] = useState(false)
-    // status state removed in favor of SweetAlert
+    const [status, setStatus] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (!email || !otp || !newPassword) {
-            Swal.fire({
-                icon: "warning",
-                title: "Incomplete Details",
-                text: "All fields are required",
-                confirmButtonColor: "#3B82F6",
-            })
+            setStatus({ type: "error", text: "All fields are required" })
             return
         }
 
         const passwordError = validatePassword(newPassword)
         if (passwordError) {
-            Swal.fire({
-                icon: "warning",
-                title: "Weak Password",
-                text: passwordError,
-                confirmButtonColor: "#3B82F6",
-            })
+            setStatus({ type: "error", text: passwordError })
             return
         }
 
         setLoading(true)
+        setStatus(null)
 
         try {
             // NOTE: This endpoint corresponds to what we will likely create on the backend:
@@ -61,29 +51,20 @@ export default function VerifyOtp() {
                 newPassword
             })
 
-            await Swal.fire({
-                icon: "success",
-                title: "Password Reset Successful",
-                text: "You can now login with your new password.",
-                confirmButtonColor: "#22c55e",
-                timer: 2000,
-                showConfirmButton: false
-            })
-            navigate("/login")
+            setStatus({ type: "success", text: "Password reset successfully! Redirecting to login..." })
+
+            setTimeout(() => {
+                navigate("/login")
+            }, 2000)
 
         } catch (err) {
             console.error("Reset password error:", err)
-            let message = "An error occurred. Please try again."
             if (isAxiosError(err)) {
-                message = (err.response?.data as { message?: string } | undefined)?.message ?? "Failed to reset password"
+                const message = (err.response?.data as { message?: string } | undefined)?.message
+                setStatus({ type: "error", text: message ?? "Failed to reset password" })
+            } else {
+                setStatus({ type: "error", text: "An error occurred. Please try again." })
             }
-
-            Swal.fire({
-                icon: "error",
-                title: "Reset Failed",
-                text: message,
-                confirmButtonColor: "#EF4444",
-            })
         } finally {
             setLoading(false)
         }
@@ -169,6 +150,17 @@ export default function VerifyOtp() {
                         </div>
                     </div>
 
+                    {status && (
+                        <div
+                            className={`rounded-lg px-3 py-2 text-sm font-medium ${status.type === "success"
+                                ? "bg-green-50 text-green-700 border border-green-200"
+                                : "bg-red-50 text-red-600 border border-red-200"
+                                }`}
+                        >
+                            {status.text}
+                        </div>
+                    )}
+
                     <button
                         type="submit"
                         disabled={loading}
@@ -191,4 +183,3 @@ export default function VerifyOtp() {
         </div>
     )
 }
-

@@ -1,9 +1,9 @@
 import React, { useState } from "react"
+import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
 import { register, type RegisterPayload, type RegisterResponse } from "../services/auth"
 import { isAxiosError } from "axios"
 import { validatePassword } from "../utils/validation"
-import Swal from "sweetalert2"
 
 export default function Register() {
   const [email, setEmail] = useState("")
@@ -13,31 +13,22 @@ export default function Register() {
   const [lastName, setLastName] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  // error state removed in favor of SweetAlert
+  const [error, setError] = useState<string | null>(null)
 
   const handleRegister = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (!email || !password || !firstName || !lastName) {
-      Swal.fire({
-        icon: "warning",
-        title: "Missing Information",
-        text: "Please fill in all fields.",
-        confirmButtonColor: "#3B82F6",
-      })
+      setError("Please fill in all fields.")
       return
     }
 
     const passwordError = validatePassword(password)
     if (passwordError) {
-      Swal.fire({
-        icon: "warning",
-        title: "Weak Password",
-        text: passwordError,
-        confirmButtonColor: "#3B82F6",
-      })
+      setError(passwordError)
       return
     }
 
+    setError(null)
     setLoading(true)
     try {
       const payload: RegisterPayload = {
@@ -47,31 +38,20 @@ export default function Register() {
         lastname: lastName
       }
       const data: RegisterResponse = await register(payload)
-
-      await Swal.fire({
+      Swal.fire({
+        title: "Success!",
+        text: `Registration successful! Email: ${data.data.email}`,
         icon: "success",
-        title: "Registration Successful!",
-        text: `Email: ${data.data.email}`,
-        confirmButtonColor: "#22c55e",
+        confirmButtonText: "Great!"
       })
       navigate("/login")
     } catch (err: unknown) {
       if (isAxiosError(err)) {
         const message = (err.response?.data as { message?: string } | undefined)?.message
-        Swal.fire({
-          icon: "error",
-          title: "Registration Failed",
-          text: message ?? "Registration failed. Please try again.",
-          confirmButtonColor: "#EF4444",
-        })
+        setError(message ?? "Registration failed. Please try again.")
       } else {
         console.error("Registration error:", err)
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Registration failed. Please try again.",
-          confirmButtonColor: "#EF4444",
-        })
+        setError("Registration failed. Please try again.")
       }
     } finally {
       setLoading(false)
@@ -163,6 +143,11 @@ export default function Register() {
               </button>
             </div>
           </div>
+          {error && (
+            <div className="text-sm text-red-600 font-medium bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {error}
+            </div>
+          )}
           <button
             onClick={handleRegister}
             disabled={loading}

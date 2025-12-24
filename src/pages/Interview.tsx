@@ -130,7 +130,7 @@ export default function Interview() {
   const fetchQuestions = async () => {
     setLoading(true)
     try {
-      const response = await api.post("/ai/generate", {
+      const response = await api.post("/interview/create", {
         role,
         experience,
         education,

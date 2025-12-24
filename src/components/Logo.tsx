@@ -10,3 +10,4 @@ export default function Logo({ className = "", to = "/" }: { className?: string;
     </Link>
   )
 }
+

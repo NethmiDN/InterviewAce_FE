@@ -63,8 +63,8 @@ export const register = async (payload: RegisterPayload): Promise<RegisterRespon
   return res.data as RegisterResponse
 }
 
-export const getMyDetails = async (): Promise<UserDetailsResponse> => {
-  const res = await api.get("/auth/me")
+export const getMe = async (): Promise<UserDetailsResponse> => {
+  const res = await api.get("/auth/profile")
   return res.data as UserDetailsResponse
 }
 

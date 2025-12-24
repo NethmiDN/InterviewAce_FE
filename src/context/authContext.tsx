@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
-import { getMyDetails, type UserDetailsResponse } from "../services/auth"
+import { getMe, type UserDetailsResponse } from "../services/auth"
 
 // Basic shape of user returned by backend; extend as needed
 export interface User {
@@ -28,17 +28,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!hasToken) return
 
     let canceled = false
-    ;(async () => {
-      try {
-        const res: UserDetailsResponse = await getMyDetails()
-        if (!canceled) setUser(res.data || null)
-      } catch (err) {
-        if (!canceled) setUser(null)
-        console.error(err)
-      } finally {
-        if (!canceled) setLoading(false)
-      }
-    })()
+      ; (async () => {
+        try {
+          const res: UserDetailsResponse = await getMe()
+          if (!canceled) setUser(res.data || null)
+        } catch (err) {
+          if (!canceled) setUser(null)
+          console.error(err)
+        } finally {
+          if (!canceled) setLoading(false)
+        }
+      })()
 
     return () => {
       canceled = true

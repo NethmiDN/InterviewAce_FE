@@ -8,8 +8,6 @@ const Login = lazy(() => import("../pages/Login"))
 const Register = lazy(() => import("../pages/Register"))
 const Home = lazy(() => import("../pages/Home"))
 const Interview = lazy(() => import("../pages/Interview"))
-const Post = lazy(() => import("../pages/Post"))
-const MyPost = lazy(() => import("../pages/MyPost"))
 const UserDetails = lazy(() => import("../pages/UserDetails"))
 const VerifyOtp = lazy(() => import("../pages/VerifyOtp"))
 
@@ -67,8 +65,6 @@ export default function Router() {
             <Route path="/home" element={<Home />} />
             <Route path="/user" element={<UserDetails />} />
             <Route path="/interview" element={<Interview />} />
-            <Route path="/post" element={<Post />} />
-            <Route path="/my-post" element={<MyPost />} />
           </Route>
         </Routes>
       </Suspense>
