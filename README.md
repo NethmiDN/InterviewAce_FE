@@ -70,8 +70,10 @@ npm run build
 ```
 
 ## Screenshots
-*(Add relevant screenshots of the Landing Page, Interview Screen, and Dashboard here)*
-
+Landing Page
+![Landing Page](public/screenshots/landing.png)
+Interview Page
+![Interview Screen](public/screenshots/interview.png)
 ---
 *Submitted as part of the Full Stack Web Application Development Coursework.*
 
