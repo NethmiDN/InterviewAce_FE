@@ -74,6 +74,8 @@ Landing Page
 ![Landing Page](public/screenshots/landing.png)
 Interview Page
 ![Interview Screen](public/screenshots/interview.png)
+Interview Questions Page
+![Generate Interview Screen](public/screenshots/generateinterview.png)
 ---
 *Submitted as part of the Full Stack Web Application Development Coursework.*
 
