@@ -1,6 +1,6 @@
 # InterviewAce - Frontend
 
-**Deployed URL:** [hhttps://interview-ace-fe.vercel.app](https://interview-ace-fe.vercel.app/)
+**Deployed URL:** [https://interview-ace-fe.vercel.app](https://interview-ace-fe.vercel.app/)
 
 ## Project Description
 InterviewAce is a **Full Stack Web Application** designed to assist candidates in preparing for interviews through an AI-powered simulation. Built with the **MERN stack (MongoDB, Express.js, React, Node.js)** and **TypeScript**, this application embodies RAD principles—rapid prototyping, iterative enhancement, and user-centred design.
