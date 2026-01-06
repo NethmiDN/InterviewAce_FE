@@ -20,8 +20,8 @@ export const validatePassword = (password: string): string | null => {
 
 export const validateEmail = (email: string): string | null => {
     if (!email) return "Email is required."
-    // Basic email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    // More robust email validation regex
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
     if (!emailRegex.test(email)) {
         return "Please enter a valid email address."
     }
